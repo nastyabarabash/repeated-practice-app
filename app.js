@@ -1,10 +1,10 @@
-import { Application, Session } from "./deps.js";
-import { authMiddleware } from "./middlewares/authMiddleware.js";
-import { errorMiddleware } from "./middlewares/errorMiddleware.js";
-import { renderMiddleware } from "./middlewares/renderMiddleware.js";
-import { serveStaticMiddleware } from "./middlewares/serveStaticMiddleware.js"
+import { Application, Session } from "../app/deps.js";
+import { authMiddleware } from "./app/middlewares/authMiddleware.js";
+import { errorMiddleware } from "./app/middlewares/errorMiddleware.js";
+import { renderMiddleware } from "./app/middlewares/renderMiddleware.js";
+import { serveStaticMiddleware } from "./app/middlewares/serveStaticMiddleware.js"
 
-import { router } from "./routes/routes.js";
+import { router } from "./app/routes/routes.js";
 
 const app = new Application();
 app.use(Session.initMiddleware());

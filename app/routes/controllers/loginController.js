@@ -1,5 +1,5 @@
 import * as userService from "../../services/userService.js";
-import { bcrypt } from "../../deps.js";
+import { bcrypt } from "../../../deps.js";
 
 const processLogin = async ({ request, response, state }) => {
   const body = request.body({ type: "form" });

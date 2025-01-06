@@ -1,4 +1,4 @@
-import { Router } from "../deps.js";
+import { Router } from "../../deps.js";
 import * as mainController from "./controllers/mainController.js";
 import * as topicsController from "./controllers/topicsController.js";
 import * as registrationController from "./controllers/registrationController.js";

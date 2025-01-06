@@ -1,7 +1,7 @@
 import * as topicsService from "../../services/topicsService.js";
 import * as quizService from "../../services/quizService.js";
 import * as optionsService from "../../services/optionsService.js";
-import { validasaur } from "../../deps.js";
+import { validasaur } from "../../../deps.js";
 
 const listTopics = async ({ render, state }) => {
   render("quizzes.eta", {

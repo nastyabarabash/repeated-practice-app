@@ -1,7 +1,7 @@
 import * as questionsService from "../../services/questionsService.js";
 import * as topicsService from "../../services/topicsService.js";
 import * as optionsService from "../../services/optionsService.js";
-import { validasaur } from "../../deps.js";
+import { validasaur } from "../../../deps.js";
 
 const questionValidationRules = {
   question: [validasaur.required, validasaur.minLength(3)],
