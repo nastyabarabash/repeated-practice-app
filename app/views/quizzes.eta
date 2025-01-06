@@ -1,0 +1,24 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1>List of topics</h1>
+
+<ul>
+  <% if (it.topics && it.topics.length > 0) { %>
+    <% it.topics.forEach((topic) => { %>
+      <li id="topic-<%= topic.id %>">
+        <%= topic.name %>
+        <form method="POST" action="/quiz/<%= topic.id %>" style="display: inline-block; margin-left:50px;">
+          <input type="submit" value="Choose a random question" />
+        </form>
+      </li>
+    <% }); %>
+  <% } else { %>
+    <li>No topics found.</li>
+  <% } %>
+</ul>
+
+<a href="/topics">
+  <p><form action="/" method="GET">
+    <input type="submit" value="Back to main page" />
+  </form></p>
+</a>

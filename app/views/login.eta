@@ -1,0 +1,14 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1>Login form</h1>
+
+<form method="POST" action="/auth/login">
+  <input type="hidden" name="redirectTo" value="<%= it.redirectTo %>" />
+  <label for="email">Email:</label><br/>
+  <input type="email" name="email" /><br/>
+  <label for="password">Password:</label><br/>
+  <input type="password" name="password" /><br/>
+  <input type="submit" value="Login" />
+</form>
+
+<a href="/auth/register">Not yet registered? Register here.</a>

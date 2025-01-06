@@ -1,0 +1,46 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1>Add a question for topic: <%= it.topic.name || "Unknown" %></h1>
+
+<ul>
+  <% if (it.questions && it.questions.length > 0) { %>
+    <% it.questions.forEach((question) => { %>
+      <li>
+        <a href="/topics/<%= it.topic.id %>/questions/<%= question.id %>">
+          <%= question.question_text %>
+        </a>
+          <form action="/topics/<%= it.topic.id %>/questions/<%= question.id %>/delete" method="POST" style="display: inline-block; margin-left: 50px;">
+            <input type="submit" value="Delete question" />
+          </form>
+      </li>
+    <% }); %>
+  <% } else { %>
+    <li>No questions found for this topic.</li>
+  <% } %>
+</ul>
+
+<% if (it.error) { %>
+<p style="color: red;"><%= it.error %></p>
+<% } %>
+
+<% if (it.validationErrors) { %>
+<ul style="color: red;">
+  <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+    <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+      <li><%= err %></li>
+    <% }); %>
+  <% }); %>
+</ul>
+<% } %>
+
+<form method="POST" action="/topics/<%= it.topic.id %>/questions">
+  <label for="question_text">Question</label><br />
+  <textarea id="question_text" name="question_text" rows="4" cols="50"></textarea><br />
+  <input type="submit" value="Ask question" />
+</form>
+
+<a href="/topics">
+  <p><form action="/topics/" method="GET">
+    <input type="submit" value="Back to topics list" />
+  </form></p>
+</a>

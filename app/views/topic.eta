@@ -1,0 +1,5 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1><%= it.topic.name %></h1>
+
+<a href="/topics">Back to Topics</a>

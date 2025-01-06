@@ -1,0 +1,29 @@
+<% layout("./layouts/layout.eta") %>
+
+<nav class="navbar">
+  <div class="quiz">
+    <a href="/topics">Topics</a>
+    <a href="/quiz">Quiz</a>
+  </div>
+</nav>
+
+<h1>Repeated practice of learned content</h1>
+
+<h2>Description</h2>
+<p>The application provides a list of topics and allows creating multiple-choice questions into those topics that are then answered by self and others. The application also shows basic statistics: the total number of available questions and the total number of question answers. In addition, the application also provides an API for retrieving and answering random questions.</p>
+
+<h2>Statistics</h2>
+<% if (it.topics && it.topics.length > 0) { %>
+  <p>Topics: <%= it.topics.length %></p>
+<% } else { %>
+    <p>No topics yet.</p>
+<% } %>
+
+<% if (it.questions && it.questions.length > 0) { %>
+  <p>Questions: <%= it.questions.length %></p>
+<% } else { %>
+    <p>No questions yet.</p>
+<% } %>
+
+<h2>Links</h2>
+<p>If you haven't used the application before, you can start by <a href="/auth/register">registering</a>. If you have been here before, just <a href="/auth/login">log in</a>!</p>

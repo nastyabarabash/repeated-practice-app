@@ -1,0 +1,47 @@
+<% layout("./layouts/layout.eta") %>
+
+<% if (!it.user.admin) { %>
+<h1>Topics</h1>
+<% } %> 
+
+<% if (it.validationErrors) { %>
+<ul>
+  <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+    <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+      <li><%= err %></li>
+    <% }); %>
+  <% }); %>
+</ul>
+<% } %>
+
+<% if (it.user.admin) { %>
+<h1>Add a topic</h1>
+  <form method="POST" action="/topics">
+    Topic name<br/>
+    <input type="text" name="name" /><br/>
+    <input type="submit" value="Add topic" />
+  </form>
+<% } %>
+
+<ul>
+  <% if (it.topics && it.topics.length > 0) { %>
+    <% it.topics.forEach((topic) => { %>
+      <li id="topic-<%= topic.id %>">
+        <a href="/topics/<%= topic.id %>"><%= topic.name %></a>
+        <% if (it.user.admin) { %>
+          <form action="/topics/<%= topic.id %>/delete" method="POST" style="display: inline-block; margin-left:50px;">
+            <input type="submit" value="Delete topic" />
+          </form>
+        <% } %>
+      </li>
+    <% }); %>
+  <% } else { %>
+    <li>No topics found.</li>
+  <% } %>
+</ul>
+
+<a href="/topics">
+  <p><form action="/" method="GET">
+    <input type="submit" value="Back to main page" />
+  </form></p>
+</a>

@@ -1,0 +1,30 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1>Random question</h1>
+
+<% if (it.randomQuestion) { %>
+  <h2>Question: <%= it.randomQuestion.question_text %></h2>
+  <form action="/quiz/<%= it.topicId %>/questions/<%= it.randomQuestion.id %>/submit" method="POST">
+  <ul style="list-style: none;">
+    <% if (it.options && it.options.length > 0) { %>
+      <% it.options.forEach((option, index) => { %>
+        <li>
+            <input
+              type="radio"
+              id="option-<%= index %>"
+              name="selectedOption"
+              value="<%= option.id %>"
+              required
+            />
+            <label for="option-<%= index %>"><%= option.option_text %></label>
+          </li>
+      <% }); %>
+    <% } else { %>
+      <li>No options available for this question.</li>
+    <% } %>
+  </ul>
+  <button type="submit">Submit answer</button>
+  </form>
+<% } else { %>
+  <li>No questions found for this topic.</li>
+<% } %>

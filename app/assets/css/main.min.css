@@ -1,0 +1,13 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+body {
+    overflow: hidden;
+    height: 100dvh;
+    background-image: url("/images/image1.jpg");;
+    color: #000;
+    font-family: "Roboto", serif;
+    font-size: 18px;
+}
