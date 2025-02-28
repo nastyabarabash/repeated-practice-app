@@ -15,19 +15,15 @@
       </li>
     <% }); %>
   <% } else { %>
-    <li>No questions found for this topic.</li>
+    <p>No questions found for this topic.</p>
   <% } %>
 </ul>
-
-<% if (it.error) { %>
-<p style="color: red;"><%= it.error %></p>
-<% } %>
 
 <% if (it.validationErrors) { %>
 <ul style="color: red;">
   <% Object.keys(it.validationErrors).forEach((attribute) => { %>
     <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
-      <li><%= err %></li>
+      <p><%= err %></p>
     <% }); %>
   <% }); %>
 </ul>

@@ -1,0 +1,10 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1 style="color: red;">Incorrect! 😔</h1>
+<p>The correct answer was: <%= it.correctAnswerText %></p>
+
+<a href="/quiz/<%= it.topicId %>">
+  <p><form action="/quiz" method="GET">
+    <input type="submit" value="Back to topic" />
+  </form></p>
+</a>

@@ -1,6 +1,6 @@
 import * as topicsService from "../../services/topicsService.js";
 import * as requestUtils from "../utils/requestUtils.js";
-import { validasaur } from "../../../deps.js";
+import { validasaur } from "../../deps.js";
 
 const topicValidationRules = {
   name: [validasaur.required, validasaur.minLength(1)],
@@ -52,8 +52,8 @@ const listTopics = async ({ render, state }) => {
   });
 };
 
-const deleteTopic = async ({ params, response, context }) => {
-  const user = context.user;
+const deleteTopic = async ({ state, params, response }) => {
+  const user = await state.session?.get("user");
 
   if (!user || !user.admin) {
     response.status = 403;
@@ -62,6 +62,7 @@ const deleteTopic = async ({ params, response, context }) => {
   }
 
   const topicId = params.id;
+
   if (!topicId) {
     response.status = 400;
     response.body = "Error 400";
@@ -70,7 +71,7 @@ const deleteTopic = async ({ params, response, context }) => {
 
   await topicsService.deleteTopic(topicId);
 
-  context.response.redirect("/topics");
+  response.redirect("/topics");
 };
 
 export { addATopic, deleteTopic, listTopics };

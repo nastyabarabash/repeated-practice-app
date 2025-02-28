@@ -5,10 +5,10 @@
 <% } %> 
 
 <% if (it.validationErrors) { %>
-<ul>
+<ul style="color: red;">
   <% Object.keys(it.validationErrors).forEach((attribute) => { %>
     <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
-      <li><%= err %></li>
+      <p><%= err %></p>
     <% }); %>
   <% }); %>
 </ul>
@@ -36,7 +36,7 @@
       </li>
     <% }); %>
   <% } else { %>
-    <li>No topics found.</li>
+    <p>No topics found.</p>
   <% } %>
 </ul>
 

@@ -23,4 +23,26 @@ const deleteOption = async (id) => {
   await sql`DELETE FROM question_answer_options WHERE id = ${id}`;
 };
 
-export { addOption, listAvailableOptions, deleteOption };
+const getCorrectOptionByQuestionId = async (questionId) => {
+    const result = await sql`
+      SELECT * FROM question_answer_options 
+      WHERE question_id = ${questionId} AND is_correct = TRUE
+      LIMIT 1;
+    `;
+    return result[0];
+};
+
+const getOptionById = async (optionId) => {
+  const rows = await sql`
+    SELECT * FROM question_answer_options
+    WHERE id = ${optionId}
+  `;
+  
+  if (rows.length > 0) {
+    return rows[0];
+  } else {
+    throw new Error("Option not found");
+  }
+};
+
+export { addOption, listAvailableOptions, deleteOption, getCorrectOptionByQuestionId, getOptionById };

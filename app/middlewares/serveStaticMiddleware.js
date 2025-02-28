@@ -1,4 +1,4 @@
-import { send } from "../../deps.js";
+import { send } from "../deps.js";
 
 const serveStaticMiddleware = async (context, next) => {
   const css = context.request.url.pathname.startsWith("/css");

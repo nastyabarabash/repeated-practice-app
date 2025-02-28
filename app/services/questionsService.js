@@ -26,12 +26,13 @@ const listAvailableQuestions = async (topicId) => {
 
 }
 
-const deleteQuestion = async (id) => {
-  if (!id) {
+const deleteQuestion = async (questionId) => {
+  if (!questionId) {
     throw new Error("Question ID is required.");
   }
+  await sql`DELETE FROM question_answer_options WHERE question_id = ${questionId}`;
 
-  await sql`DELETE FROM questions WHERE id = ${id}`;
+  await sql`DELETE FROM questions WHERE id = ${questionId}`;
 };
 
 const getQuestionById = async ({ id }) => {

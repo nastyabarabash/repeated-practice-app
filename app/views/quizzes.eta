@@ -6,6 +6,9 @@
   <% if (it.topics && it.topics.length > 0) { %>
     <% it.topics.forEach((topic) => { %>
       <li id="topic-<%= topic.id %>">
+        <% /* <a href="/topics/<%= topic.id %>">
+          <%= topic.name %>
+        </a> */ %>
         <%= topic.name %>
         <form method="POST" action="/quiz/<%= topic.id %>" style="display: inline-block; margin-left:50px;">
           <input type="submit" value="Choose a random question" />
@@ -13,7 +16,7 @@
       </li>
     <% }); %>
   <% } else { %>
-    <li>No topics found.</li>
+    <p>No topics found.</p>
   <% } %>
 </ul>
 

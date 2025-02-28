@@ -1,6 +1,6 @@
-import { bcrypt } from "../../../deps.js";
+import { bcrypt } from "../../deps.js";
 import * as userService from "../../services/userService.js";
-import { validasaur } from "../../../deps.js";
+import { validasaur } from "../../deps.js";
 
 const userValidationRules = {
   email: [validasaur.required, validasaur.isEmail],

@@ -2,16 +2,6 @@
 
 <p>Question: <%= it.question.question_text %></p>
 
-<% if (it.validationErrors) { %>
-<ul style="color: red;">
-  <% Object.keys(it.validationErrors).forEach((attribute) => { %>
-    <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
-      <li><%= err %></li>
-    <% }); %>
-  <% }); %>
-</ul>
-<% } %>
-
 <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/options">
   <label for="option_text">Options</label><br />
   <textarea id="option_text" name="option_text" rows="4" cols="50"></textarea><br />
@@ -27,34 +17,44 @@
   <% if (it.options && it.options.length > 0) { %>
     <% it.options.forEach((option, index) => { %>
       <li>
-      <li>
-            <input
-              type="radio"
-              id="option-<%= index %>"
-              name="selectedOption"
-              value="<%= option.id %>"
-              required
-            />
-            <label for="option-<%= index %>"><%= option.option_text %>. <% if (it.user.admin) { %><%= option.is_correct ? 'correct' : 'incorrect' %><% } %></label>
-            <form action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/options/<%= option.id %>/delete" method="POST" style="display: inline-block; margin-left: 50px;">
-              <input type="submit" value="Delete option" />
-            </form> 
-          </li>
+        <li>
+          <input
+            type="radio"
+            id="option-<%= index %>"
+            name="selectedOption"
+            value="<%= option.id %>"
+            required
+          />
+          <label for="option-<%= index %>"><%= option.option_text %>. <% if (it.user.admin) { %><%= option.is_correct ? 'correct' : 'incorrect' %><% } %></label>
+          <form action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/options/<%= option.id %>/delete" method="POST" style="display: inline-block; margin-left: 50px;">
+            <input type="submit" value="Delete option" />
+          </form> 
+        </li>
       </li>
     <% }); %>
   <% } else { %>
-    <p style="color: red;">No options found for this question.</p>
+    <form action="/topics/<%= it.topic.id %>/questions/<%= it.question.id %>/delete" method="POST" style="display: inline-block; margin-left: 50px;">
+      <input type="submit" value="Delete question" />
+    </form>
   <% } %>
 </ul>
 
-<% if (!it.user.admin) { %>
-  <form action="/quiz/<%= it.topicId %>/questions/<%= it.question.id %>/submit" method="POST">
-    <button type="submit">Submit answer</button>
-  </form>
+<% if (it.error) { %>
+<p style="color: red;"><%= it.error %></p>
 <% } %>
 
-<a href="/topics/<%= it.question.topic_id %>">
-  <p><form action="/topics/" method="GET">
-    <input type="submit" value="Back to topic" />
+<% if (it.validationErrors) { %>
+<ul style="color: red;">
+  <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+    <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+      <p><%= err %></p>
+    <% }); %>
+  <% }); %>
+</ul>
+<% } %>
+
+<a href="/topics/<%= it.topic?.id %>/questions">
+  <p><form action="/topics/<%= it.topic?.id %>" method="GET">
+    <input type="submit" value="Back to questions" />
   </form></p>
 </a>

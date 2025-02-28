@@ -15,9 +15,26 @@ const findTopicByName = async (name) => {
 }
 
 const deleteTopic = async (topicId) => {
+  const questions = await sql`SELECT id FROM questions WHERE topic_id = ${topicId}`;
+  
+  for (const question of questions) {
+    const questionId = question.id;
+
+    await sql`DELETE FROM question_answers WHERE question_id = ${questionId}`;
+
+    await sql`DELETE FROM question_answer_options WHERE question_id = ${questionId}`;
+  }
+
   await sql`DELETE FROM questions WHERE topic_id = ${topicId}`;
 
   await sql`DELETE FROM topics WHERE id = ${topicId}`;
+
+
+  // await sql`DELETE FROM question_answer_options WHERE question_id = ${questionId}`;
+
+  // await sql`DELETE FROM questions WHERE topic_id = ${topicId}`;
+
+  // await sql`DELETE FROM topics WHERE id = ${topicId}`;
 };
 
 const getTopicById = async ({ id }) => {

@@ -27,4 +27,13 @@ const getQuestionById = async (questionId) => {
   return rows.length > 0 ? rows[0] : null;
 };
 
-export { listAvailableQuizzes, getRandomQuestion, getQuestionById };
+const saveUserAnswer = async (answerData) => {
+  const result = await sql`
+    INSERT INTO question_answers (user_id, question_id, question_answer_option_id)
+    VALUES (${answerData.user_id}, ${answerData.question_id}, ${answerData.question_answer_option_id})
+    RETURNING id;
+  `;
+  return result;
+};
+
+export { listAvailableQuizzes, getRandomQuestion, getQuestionById, saveUserAnswer };

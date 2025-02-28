@@ -4,27 +4,35 @@
 
 <% if (it.randomQuestion) { %>
   <h2>Question: <%= it.randomQuestion.question_text %></h2>
-  <form action="/quiz/<%= it.topicId %>/questions/<%= it.randomQuestion.id %>/submit" method="POST">
-  <ul style="list-style: none;">
-    <% if (it.options && it.options.length > 0) { %>
-      <% it.options.forEach((option, index) => { %>
-        <li>
-            <input
+    <ul>
+      <% if (it.options && it.options.length > 0) { %>
+        <% it.options.forEach((option, index) => { %>
+          <li>
+            <%= option.option_text %>
+            <% /* <input
               type="radio"
               id="option-<%= index %>"
               name="selectedOption"
               value="<%= option.id %>"
               required
             />
-            <label for="option-<%= index %>"><%= option.option_text %></label>
+            <label for="option-<%= index %>"><%= option.option_text %></label> */ %>
+            <form method="POST" action="/quiz/<%= it.topicId %>/questions/<%= it.randomQuestion.id %>/options/<%= option.id %>" style="display: inline-block; margin-left:50px;">
+              <input type="submit" value="Choose" />
+            </form>
           </li>
-      <% }); %>
-    <% } else { %>
-      <li>No options available for this question.</li>
-    <% } %>
-  </ul>
-  <button type="submit">Submit answer</button>
+        <% }); %>
+      <% } else { %>
+        <p>No options available for this question.</p>
+      <% } %>
+    </ul>
   </form>
 <% } else { %>
-  <li>No questions found for this topic.</li>
+  <p>No questions found for this topic.</p>
 <% } %>
+
+<a href="/quiz">
+  <p><form action="/quiz" method="GET">
+    <input type="submit" value="Back to quizzes" />
+  </form></p>
+</a>

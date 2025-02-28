@@ -1,7 +1,7 @@
 import * as questionsService from "../../services/questionsService.js";
 import * as topicsService from "../../services/topicsService.js";
 import * as optionsService from "../../services/optionsService.js";
-import { validasaur } from "../../../deps.js";
+import { validasaur } from "../../deps.js";
 
 const optionValidationRules = {
   optionText: [validasaur.required, validasaur.minLength(3)],
@@ -11,7 +11,7 @@ const getOptionData = async (request) => {
   const body = request.body({ type: "form" });
   const params = await body.value;
 
-  const optionText = params.get("option_text")?.trim() || "";
+  const optionText = params.get("option_text") ? params.get("option_text").trim() : "";
   const isCorrect = params.get("is_correct") === "on";
 
   return { optionText: optionText || "" , isCorrect };
@@ -19,13 +19,13 @@ const getOptionData = async (request) => {
 
 const addAnOption = async ({ params, request, response, render, state }) => {
   const questionId = parseInt(params.qId, 10);
-  const topicId = params.id;
+  const topicId = parseInt(params.id, 10);
 
   if (!topicId || !questionId) {
-    const questions = await questionsService.listAvailableQuestions(topicId);
-    render("questions.eta", {
+    const options = await optionsService.listAvailableOptions(questionId);
+    render("question.eta", {
       error: "Missing or invalid topic ID or question ID.",
-      questions,
+      options,
       topic: { id: topicId },
     });
     return;
@@ -34,10 +34,10 @@ const addAnOption = async ({ params, request, response, render, state }) => {
   const user = await state.session?.get("user");
 
   if (!user || !user.id) {
-    const questions = await questionsService.listAvailableQuestions(topicId);
-    render("questions.eta", {
+    const options = await optionsService.listAvailableOptions(questionId);
+    render("question.eta", {
       error: "You must be logged in to add a question.",
-      questions,
+      options,
       topic: { id: topicId },
     });
     return;
@@ -52,13 +52,14 @@ const addAnOption = async ({ params, request, response, render, state }) => {
 
   if (!passes) {
     const options = await optionsService.listAvailableOptions(questionId);
-    const question = await questionsService.getQuestionById(questionId);
+    const question = await questionsService.getQuestionById({ id: questionId });
 
     render("question.eta", {
       validationErrors: errors,
       options,
       question,
       option_text: optionData.optionText,
+      topic: { id: topicId },
     });
     return;
   }

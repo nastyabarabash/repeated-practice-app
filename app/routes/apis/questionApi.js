@@ -13,31 +13,66 @@ const listAvailableQuestions = async ({ response }) => {
   response.body = questions;
 };
 
-const getRandomQuestionAPI = async ({ request, response }) => {
-  const url = new URL(request.url);
-  const topicId = url.searchParams.get("topicId");
-
-  const randomQuestion = await quizService.getRandomQuestion(topicId);
+const getRandomQuestionAPI = async ({ response }) => {
+  const randomQuestion = await quizService.getRandomQuestion();
 
   if (!randomQuestion) {
-    response.status = 404;
-    response.body = { error: "No random question found." };
+    response.body = {};
     return;
   }
 
   const answerOptions = await optionsService.listAvailableOptions(randomQuestion.id);
 
-  const responseData = {
+  response.status = 200;
+  response.body = {
     questionId: randomQuestion.id,
     questionText: randomQuestion.question_text,
-    answerOptions: answerOptions.map(option => ({
+    answerOptions: answerOptions.map((option) => ({
       optionId: option.id,
       optionText: option.option_text,
     })),
   };
+};
 
-  response.status = 200;
-  response.body = responseData;
-}
+const submitAnswer = async ({ request, response }) => {
+  try {
+    if (request.headers.get("Content-Type") !== "application/json") {
+      response.status = 400;
+      response.body = { error: "Content-Type must be application/json" };
+      return;
+    }
 
-export { listAvailableQuestions, getRandomQuestionAPI };
+    const { questionId, optionId } = await request.body().value;
+
+    if (!questionId || !optionId) {
+      response.status = 400;
+      response.body = { error: "Missing questionId or optionId" };
+      return;
+    }
+
+    const chosenOption = await optionsService.getOptionById(optionId);
+    if (!chosenOption) {
+      response.status = 404;
+      response.body = { error: "Option not found" };
+      return;
+    }
+
+    const correctOption = await optionsService.getCorrectOptionByQuestionId(questionId);
+    if (!correctOption) {
+      response.status = 404;
+      response.body = { error: "Correct option not found" };
+      return;
+    }
+
+    const isCorrect = chosenOption.is_correct;
+
+    response.status = 200;
+    response.body = { correct: isCorrect };
+  } catch (err) {
+    console.error("Error submitting answer:", err);
+    response.status = 500;
+    response.body = { error: "An error occurred while submitting the answer" };
+  }
+};
+
+export { listAvailableQuestions, getRandomQuestionAPI, submitAnswer };

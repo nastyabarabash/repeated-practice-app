@@ -1,7 +1,7 @@
 import * as questionsService from "../../services/questionsService.js";
 import * as topicsService from "../../services/topicsService.js";
 import * as optionsService from "../../services/optionsService.js";
-import { validasaur } from "../../../deps.js";
+import { validasaur } from "../../deps.js";
 
 const questionValidationRules = {
   question: [validasaur.required, validasaur.minLength(3)],
@@ -51,6 +51,7 @@ const addAQuestion = async ({ params, request, response, render, state }) => {
 
   if (!passes) {
     const questions = await questionsService.listAvailableQuestions(topicId);
+
     render("questions.eta", {
       validationErrors: errors,
       questions,
@@ -74,8 +75,8 @@ const deleteQuestion = async ({ params, response }) => {
     return;
   }
 
-    await questionsService.deleteQuestion(questionId);
-    response.redirect(`/topics/${topicId}`);
+  await questionsService.deleteQuestion(questionId);
+  response.redirect(`/topics/${topicId}`);
 };
 
 const listQuestions = async ({ params, render }) => {

@@ -1,4 +1,4 @@
-import { Router } from "../../deps.js";
+import { Router } from "../deps.js";
 import * as mainController from "./controllers/mainController.js";
 import * as topicsController from "./controllers/topicsController.js";
 import * as registrationController from "./controllers/registrationController.js";
@@ -32,9 +32,13 @@ router.post("/topics/:id/questions/:qId/options/:oId/delete", optionsController.
 
 router.get("/api/questions", questionApi.listAvailableQuestions);
 router.get("/api/questions/random", questionApi.getRandomQuestionAPI);
+router.post("/api/questions/answer", questionApi.submitAnswer);
 
 router.get("/quiz", quizController.listTopics);
 router.post("/quiz/:id", quizController.randomQuestion);
 router.get("/quiz/:id/questions/:qId", quizController.showQuestion);
+router.post("/quiz/:id/questions/:qId/options/:oId", quizController.submitAnswer);
+router.get("/quiz/:id/questions/:qId/correct", quizController.showCorrectAnswerPage);
+router.get("/quiz/:id/questions/:qId/incorrect", quizController.showIncorrectAnswerPage);
 
 export { router };
